@@ -10,6 +10,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import pageObjects.TekSchoolScenariosPageObject;
+import utilities.DBUtilities;
 import utilities.Utility;
 
 public class TekSchoolScenariosStepDefinitions extends Base {
@@ -101,5 +102,23 @@ public class TekSchoolScenariosStepDefinitions extends Base {
 		tekSchoolScenariosPageObject.clickonRegister();
 	}
 
-	
+	@When("^User connects to DataBase$")
+	public void user_connects_to_DataBase() throws Throwable {
+	    // Write code here that turns the phrase above into concrete actions
+	    DBUtilities.setupConnection();
+	}
+
+	@When("^User sends query '(.+)' $")
+	public void user_sends_query(String query) throws Throwable {
+	    // Write code here that turns the phrase above into concrete actions
+		 DBUtilities.runQuery(query);
+	}
+
+	@Then("^User verify account is created with e mail'(.+)'$")
+	public void user_verify_account_is_created_with_e_mail(String emailValidation) throws Throwable {
+	    // Write code here that turns the phrase above into concrete actions
+	   String staticquery="select * from public.costumer where email =";
+	   DBUtilities.runQuery(staticquery+emailValidation).getString("email");
+		
+	}
 }
